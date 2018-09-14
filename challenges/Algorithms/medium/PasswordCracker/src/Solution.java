@@ -8,29 +8,19 @@ public class Solution {
 
     static String passwordCracker(String[] pass, String attempt) {
         // Complete this function
-        for(String passwords : pass){
-            attempt = attempt.replaceAll(passwords, passwords + " ");
-        }
-        //System.out.println(attempt);
-        String splitVersion[] = attempt.split(" ");
+        String result = crack(pass, attempt, "");
+        return result.trim();
+    }
 
-        /*for (String words: splitVersion){
-            System.out.print(words);
-        }
-        */
-        System.out.println();
-        for (String words : splitVersion){
-            //System.out.print(words);
-            boolean found = false;
-            for(String passwords : pass){
-                if (words.equals(passwords)) {
-                    found = true;
-                    break;
-                }
+    static String crack(String pass[], String attempt, String concat){
+        for (String password: pass){
+            if (attempt.length() == 0) return concat;
+            if (attempt.startsWith(password)){
+                return (crack(pass, attempt.substring(password.length()),
+                        concat + " " + password));
             }
-            if (!found) return "WRONG PASSWORD";
         }
-        return attempt;
+        return "WRONG PASSWORD";
     }
 
     public static void main(String[] args) {
@@ -41,12 +31,12 @@ public class Solution {
 
         String pass2[] = {"hello", "planet"};
         attempt = "helloworld";
-        result = passwordCracker(pass, attempt);
+        result = passwordCracker(pass2, attempt);
         System.out.println(result);
 
         String pass3[] = {"ab", "abcd", "cd"};
         attempt = "abcd";
-        result = passwordCracker(pass, attempt);
+        result = passwordCracker(pass3, attempt);
         System.out.println(result);
     }
 }
